@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英打遊戲開發歷程</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #f4f6f9;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header { text-align: center; margin-bottom: 2.5rem; }
+    h1 { font-size: 2.2rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+    p.subtitle { color: #666; font-size: 1rem; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      width: 100%;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .card h2 { font-size: 1.4rem; color: #2c3e50; margin-bottom: 0.8rem; }
+    .card p { color: #555; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1; }
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 0.75rem 1.2rem;
+      background-color: #0066cc;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+    .btn:hover { background-color: #0052a3; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>英打遊戲開發歷程網站</h1>
+    <p class="subtitle">整合於單一 GitHub 儲存庫的跨版本展示</p>
+  </header>
+
+  <main class="card-grid">
+    <!-- 版本一卡片：指向 v1/ 子目錄 -->
+    <div class="card">
+      <div>
+        <h2>版本一：起步階段</h2>
+        <p>最基礎的畫面結構與介面測試，包含標題與初版按鈕。</p>
+      </div>
+      <a href="v1/index.html" class="btn">前往版本一</a>
+    </div>
+
+    <!-- 版本二卡片：指向 v2/ 子目錄 -->
+    <div class="card">
+      <div>
+        <h2>版本二：素材整合</h2>
+        <p>加入鍵盤示意圖片與按鍵音效，練習相對路徑與外部素材引用。</p>
+      </div>
+      <a href="v2/index.html" class="btn">前往版本二</a>
+    </div>
+
+    <!-- 版本三卡片：指向 v3/ 子目錄 或預告頁 -->
+    <div class="card">
+      <div>
+        <h2>版本三：遊戲開發中</h2>
+        <p>即將推出的 ASDF 實體鍵盤練習模組，敬請期待！</p>
+      </div>
+      <a href="v3/index.html" class="btn">前往版本三</a>
+    </div>
+  </main>
+
+</body>
+</html>
