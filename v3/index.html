@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英打遊戲版本三 - ASDF 練習</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #f4f6f9;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    header { text-align: center; margin-bottom: 1.5rem; }
+    h1 { font-size: 2rem; color: #333; margin-bottom: 0.5rem; }
+
+    .game-box {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .target-display {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #0066cc;
+      margin: 1.5rem 0;
+      min-height: 5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .score-board {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .keyboard-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .key {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      background-color: #fafafa;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .key.active {
+      background-color: #ff3366;
+      color: #ffffff;
+      border-color: #cc0033;
+      box-shadow: 0 0 12px rgba(255, 51, 102, 0.6);
+    }
+
+    .key.active::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      width: 6px;
+      height: 6px;
+      background-color: #ffffff;
+      border-radius: 50%;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-primary { background-color: #0066cc; color: white; }
+    .btn-secondary { background-color: #6c757d; color: white; }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>英打遊戲版本三：ASDF 基礎練習</h1>
+  </header>
+
+  <div class="game-box">
+    <div class="score-board">
+      得分：<span id="score">0</span> 分
+    </div>
+
+    <div class="target-display" id="targetChar">按開始開始遊戲</div>
+
+    <div class="keyboard-container">
+      <div class="key" id="key-A">A</div>
+      <div class="key" id="key-S">S</div>
+      <div class="key" id="key-D">D</div>
+      <div class="key" id="key-F">F</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="startBtn">開始 / 重新開始</button>
+      <button class="btn btn-secondary" id="stopBtn" disabled>停止</button>
+    </div>
+
+    <div>
+      <a href="../index.html" class="back-link">← 返回開發歷程首頁</a>
+    </div>
+  </div>
+
+  <script>
+    const keys = ['A', 'S', 'D', 'F'];
+    let currentTarget = '';
+    let score = 0;
+    let isPlaying = false;
+    let isKeyPressed = false;
+
+    const targetCharEl = document.getElementById('targetChar');
+    const scoreEl = document.getElementById('score');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+
+    function nextQuestion() {
+      if (currentTarget) {
+        document.getElementById(`key-${currentTarget}`)?.classList.remove('active');
+      }
+
+      const randomIndex = Math.floor(Math.random() * keys.length);
+      currentTarget = keys[randomIndex];
+
+      targetCharEl.innerText = currentTarget;
+      document.getElementById(`key-${currentTarget}`)?.classList.add('active');
+    }
+
+    startBtn.addEventListener('click', () => {
+      score = 0;
+      scoreEl.innerText = score;
+      isPlaying = true;
+      startBtn.innerText = '重新開始';
+      stopBtn.disabled = false;
+      nextQuestion();
+    });
+
+    stopBtn.addEventListener('click', () => {
+      isPlaying = false;
+      if (currentTarget) {
+        document.getElementById(`key-${currentTarget}`)?.classList.remove('active');
+      }
+      targetCharEl.innerText = '已停止';
+      stopBtn.disabled = true;
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (!isPlaying || isKeyPressed) return;
+      isKeyPressed = true;
+
+      const pressedKey = e.key.toUpperCase();
+
+      if (keys.includes(pressedKey)) {
+        if (pressedKey === currentTarget) {
+          score += 1;
+          scoreEl.innerText = score;
+          nextQuestion();
+        }
+      }
+    });
+
+    window.addEventListener('keyup', () => {
+      isKeyPressed = false;
+    });
+  </script>
+
+</body>
+</html>
